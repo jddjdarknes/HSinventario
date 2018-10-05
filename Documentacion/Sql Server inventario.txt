@@ -1,0 +1,100 @@
+create database inventario
+use inventario
+
+/*create table perfil
+//(idperfil int identity(1,1) not null primary key,
+//departamentoperfil varchar(25) not null,
+//contrase�a varchar(25) not null,
+//idpersonal int null,
+//clave varchar(20) null
+//);*/
+
+create table personal
+(idpersonal int identity(1,1) not null primary key,
+usuario varchar(25) not null,
+contrasena varchar(Max) not null,
+Nombres varchar(50) not null,
+apellidos varchar(50) not null,
+departamentopersonal varchar(50) null default 'Dato no proporcionado',
+puesto varchar(50) null,
+localidad varchar(25) null,
+coordinador varchar(50),
+cliente varchar(50),
+perfil varchar(20) null,
+estadoherramienta varchar(12) null,
+estatus int null
+);
+
+create table herramienta
+(Clave varchar (20) not null primary key,
+correo varchar(50) null,
+passcorreo varchar(50) null,
+passpst varchar(50) null,
+passwindows varchar(50) null,
+knueve varchar(25) null,
+nombreequipo varchar(35) null,
+tipo varchar(25) null,
+usuariowindows varchar(50),
+marca varchar(50),
+modelo varchar(50),
+no_serie varchar (50),
+procesador varchar(max),
+discoduro varchar(10),
+ram varchar(10),
+so varchar(max),
+direccionip varchar(16),
+macadress varchar(25),
+idteamviewer varchar(10),
+fecha_ingreso date,
+cantidad int null,
+proyecto varchar(25) null,
+asignar varchar(4) null,
+estadoherramienta varchar (12) null,
+macadresswi varchar(25) null
+);
+
+create table herramientas_personal(
+idpersonal int not null,
+Clave varchar(20) not null,
+Descripcion varchar(100) not null,
+estado_herramienta varchar(30) not null,
+fecha_limite_garantia date null,
+tiempo_garantia int null
+);
+
+create table peticion
+(idpeticion int indentity(1,1) not null primary key,
+datos varchar(max) not null,
+hardware varchar(max) not null,
+software varchar(max) not null,
+atendido int);
+
+/*alter table perfil
+//add CONSTRAINT FK_idpersonal
+//FOREIGN KEY (idpersonal) REFERENCES personal(idpersonal);*/
+
+/*alter table perfil
+//add CONSTRAINT FK_clave
+//FOREIGN KEY (clave) REFERENCES herramienta(clave);*/
+
+alter table herramientas_personal
+Add PRIMARY KEY (idpersonal,Clave);
+
+alter table herramientas_personal
+add CONSTRAINT FK_personal
+FOREIGN KEY (idpersonal) REFERENCES personal(idpersonal);
+
+alter table herramientas_personal
+add CONSTRAINT FK_herramienta
+FOREIGN KEY (clave) REFERENCES herramienta(clave);
+
+
+CREATE TRIGGER actualizartablas ON herramientas_personal
+        AFTER INSERT  AS
+
+          DECLARE @idpersonal int SET @idpersonal = (SELECT idpersonal FROM inserted)
+          DECLARE @clave varchar(max) SET @clave = (SELECT Clave FROM inserted)
+          DECLARE @estado varchar(12) SET @estado = (Select estado_herramienta from inserted)
+          UPDATE personal set estadoherramienta = @estado WHERE idpersonal = @idpersonal
+          UPDATE herramienta set estadoherramienta = @estado WHERE Clave = @clave
+Go
