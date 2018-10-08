@@ -274,7 +274,7 @@ else{
             //alert("Siguiente");
             $("input:checkbox:checked").each(
               function() {
-                alert("El checkbox con valor " + $(this).val() + " está seleccionado");
+                //alert("El checkbox con valor " + $(this).val() + " está seleccionado");
 
                 if($(this).val() == 1){
                   $.post( "HerramientaH_ajax.php" ,{herramienta:1,action:"ajax"},function( data ) {
