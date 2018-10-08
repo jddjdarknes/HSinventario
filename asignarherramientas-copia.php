@@ -1,4 +1,5 @@
 <?php
+echo "Perro naranja.....";
 session_start();
 include ('conexion.php');
 $cadena1 = $_SESSION['puesto'];
