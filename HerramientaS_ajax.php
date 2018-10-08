@@ -3,6 +3,7 @@ session_start();
 include 'conexion.php';
 # conectare la base de datos
  $herramienta = (isset($_POST['herramienta'])&& $_POST['herramienta'] !=NULL)?$_POST['herramienta']:'';
+ //echo "Herramienta: ".$herramienta."<br>";
 			# code...
 			//echo "Usuario: ".$usuario."<br>";
 			$action = (isset($_POST['action'])&& $_POST['action'] !=NULL)?$_POST['action']:'';
@@ -19,6 +20,7 @@ include 'conexion.php';
 				if($offset != 0){$contador1=$offset+4;}
 				if($offset != 0){$contador2 = $offset+1; }
 				//Cuenta el número total de filas de la tabla*/
+        echo "Herraminta: ".$herramienta."<br>";
         if($herramienta == 1){
           $count_query = sqlsrv_query($conexion,"SELECT count(*) AS numrows
           FROM Herramienta
@@ -26,46 +28,40 @@ include 'conexion.php';
           and estadoherramienta = 'No Asignada';");
         }
 
-        if($herramienta == 2){
-          $count_query = sqlsrv_query($conexion,"SELECT count(*) AS numrows
-          FROM Herramienta
-          where tipo like '%UnidadRed'
-          and estadoherramienta != 'Asignada'");
-        }
 
-        if($herramienta == 3){
+        if($herramienta == 2){
           $count_query = sqlsrv_query($conexion,"SELECT count(*) AS numrows
           FROM Herramienta
           where tipo like '%Contabilidad'
           and estadoherramienta != 'Asignada'");
         }
 
-        if($herramienta == 4){
+        if($herramienta == 3){
           $count_query = sqlsrv_query($conexion,"SELECT count(*) AS numrows
           FROM Herramienta
           where tipo like '%Facturacion'
           and estadoherramienta != 'Asignada'");
         }
 
-        if($herramienta == 5){
+        if($herramienta == 4){
           $count_query = sqlsrv_query($conexion,"SELECT count(*) AS numrows FROM Herramienta
           where tipo like '%Giro'
           and estadoherramienta != 'Asignada'");
         }
 
-        if($herramienta == 6){
+        if($herramienta == 5){
           $count_query = sqlsrv_query($conexion,"SELECT count(*) AS numrows FROM Herramienta
           where tipo like '%SistemaTicket'
           and estadoherramienta != 'Asignada'");
         }
 
-        if($herramienta == 7){
+        if($herramienta == 6){
           $count_query = sqlsrv_query($conexion,"SELECT count(*) AS numrows FROM Herramienta
           where tipo like '%GiroWeb'
           and estadoherramienta != 'Asignada'");
         }
 
-        if($herramienta == 8){
+        if($herramienta == 7){
           $count_query = sqlsrv_query($conexion,"SELECT count(*) AS numrows FROM Herramienta
           where tipo like '%correo'
           and estadoherramienta != 'Asignada'");
@@ -89,7 +85,7 @@ include 'conexion.php';
             where ROWNUMBER BETWEEN $contador2 and $contador1;";
           }
 
-          if($herramienta == 2){
+          /*if($herramienta == 2){
             $consulta="SELECT *
             from
             (Select *,
@@ -97,9 +93,9 @@ include 'conexion.php';
               where tipo like '%UnidadRed'
               and estadoherramienta != 'Asignada') AS TABLEWHITROWNUMBER
               where ROWNUMBER BETWEEN $contador2 and $contador1;";
-            }
+            }*/
 
-            if($herramienta == 3){
+            if($herramienta == 2){
               $consulta="SELECT *
               from
               (Select *,
@@ -110,7 +106,7 @@ include 'conexion.php';
 
               }
 
-              if($herramienta == 4){
+              if($herramienta == 3){
                   $consulta="SELECT *
                   from
                   (Select *,
@@ -120,7 +116,7 @@ include 'conexion.php';
                     where ROWNUMBER BETWEEN $contador2 and $contador1;";
                 }
 
-                if($herramienta == 5){
+                if($herramienta == 4){
                   $consulta="SELECT *
                   from
                   (Select *,
@@ -130,7 +126,7 @@ include 'conexion.php';
                     where ROWNUMBER BETWEEN $contador2 and $contador1;";
                 }
 
-                if($herramienta == 6){
+                if($herramienta == 5){
                   $consulta="SELECT *
                   from
                   (Select *,
@@ -140,7 +136,7 @@ include 'conexion.php';
                     where ROWNUMBER BETWEEN $contador2 and $contador1;";
                 }
 
-                if($herramienta == 7){
+                if($herramienta == 6){
                   $consulta="SELECT *
                   from
                   (Select *,
@@ -150,7 +146,7 @@ include 'conexion.php';
                     where ROWNUMBER BETWEEN $contador2 and $contador1;";
                 }
 
-                if($herramienta == 8){
+                if($herramienta == 7){
                   $consulta="SELECT *
                   from
                   (Select *,
@@ -169,13 +165,12 @@ include 'conexion.php';
 						<thead>
 						<tr>";
             if($herramienta == "1"){echo"<th>Usuario</th><th>Contraseña</th>";}
- 					  if($herramienta == "2"){echo"<th>Nombre(s) de la unidad</th>";}
+ 					  if($herramienta == "2"){echo"<th>Usuario</th><th>Contraseña</th><th>Perfil</th>";}
  					  if($herramienta == "3"){echo"<th>Usuario</th><th>Contraseña</th><th>Perfil</th>";}
- 					  if($herramienta == "4"){echo"<th>Usuario</th><th>Contraseña</th><th>Perfil</th>";}
- 					  if($herramienta == "5"){echo"<th>Usuario</th><th>Contraseña</th><th>Perfil</th><th>Base de Datos</th>";}
- 					  if($herramienta == "6"){echo"<th>Usuario</th><th>Contraseña</th>";}
- 					  if($herramienta == "7"){echo"<th>Usuaro</th><th>Contraseña</th><th>Base de Datos</th><th>Sucursales</th>";}
- 					  if($herramienta == "8"){echo"<th>Usuario</th><th>Contraseña</th>";}
+ 					  if($herramienta == "4"){echo"<th>Usuario</th><th>Contraseña</th><th>Perfil</th><th>Base de Datos</th>";}
+ 					  if($herramienta == "5"){echo"<th>Usuario</th><th>Contraseña</th>";}
+ 					  if($herramienta == "6"){echo"<th>Usuaro</th><th>Contraseña</th><th>Base de Datos</th><th>Sucursales</th>";}
+ 					  if($herramienta == "7"){echo"<th>Usuario</th><th>Contraseña</th>";}
 						echo "</tr>
 						</thead>
 						<tbody>";
@@ -183,13 +178,12 @@ include 'conexion.php';
 						{
 							echo "<tr>";
               if($herramienta == "1"){echo"<td>".$line['correo']."</td><td>".$line['passcorreo']."</td>"; echo "<td><label class='checkbox-inline'><input class = 'software' type='checkbox' value='".$line['Clave']."' data-nombrequipo='".$line['correo']."' data-estado='Asignada'>Asignar</label></td>";}
- 	 					  if($herramienta == "2"){echo"<td>".$line['correo']."</td>"; echo "<td><label class='checkbox-inline'><input class = 'software' type='checkbox' value='".$line['Clave']."' data-nombrequipo='".$line['correo']."' data-estado='Asignada'>Asignar</label></td>";}
- 	 					  if($herramienta == "3"){echo"<td>".$line['correo']."</td><td>".$line['passcorreo']."</td><td>".$line['passpst']."</td>"; echo "<td><label class='checkbox-inline'><input class = 'software' type='checkbox' value='".$line['Clave']."' data-nombrequipo='".$line['correo']."' data-estado='Asignada'>Asignar</label></td>";}
- 	 					  if($herramienta == "4"){echo"<td>".$line['correo']."</td><td>".$line['passcorreo']."</td><td>".$line['passpst']."</td>"; echo "<td><label class='checkbox-inline'><input class = 'software' type='checkbox' value='".$line['Clave']."' data-nombrequipo='".$line['correo']."' data-estado='Asignada' >Asignar</label></td>";}
- 	 					  if($herramienta == "5"){echo"<td>".$line['correo']."</td><td>".$line['passcorreo']."</td><td>".$line['passpst']."</td><td>".$line['passwindows']."</td>"; echo "<td><label class='checkbox-inline'><input class = 'software' type='checkbox' value='".$line['correo']."' data-nombrequipo='".$line['correo']."' data-estado='Asignada'>Asignar</label></td>";}
- 	 					  if($herramienta == "6"){echo"<td>".$line['correo']."</td><td>".$line['passcorreo']."</td>"; echo "<td><label class='checkbox-inline'><input class = 'software' type='checkbox' value='".$line['Clave']."' data-nombrequipo='".$line['correo']."' data-estado='Asignada' >Asignar</label></td>";}
- 	 					  if($herramienta == "7"){echo"<td>".$line['correo']."</td><td>".$line['passcorreo']."</td><td>".$line['passpst']."</td><td>".$line['passwindows']."</td>"; echo "<td><label class='checkbox-inline'><input class = 'software' type='checkbox' value='".$line['correo']."' data-nombrequipo='".$line['correo']."' data-estado='Asignada'>Asignar</label></td>";}
- 						  if($herramienta == "8"){echo"<td>".$line['correo']."</td><td>".$line['passcorreo']."</td>"; echo "<td><label class='checkbox-inline'><input class = 'software' type='checkbox' value='".$line['Clave']."' data-nombrequipo='".$line['correo']."' data-estado='Asignada'>Asignar</label></td>";}
+ 	 					  if($herramienta == "2"){echo"<td>".$line['correo']."</td><td>".$line['passcorreo']."</td><td>".$line['passpst']."</td>"; echo "<td><label class='checkbox-inline'><input class = 'software' type='checkbox' value='".$line['Clave']."' data-nombrequipo='".$line['correo']."' data-estado='Asignada'>Asignar</label></td>";}
+ 	 					  if($herramienta == "3"){echo"<td>".$line['correo']."</td><td>".$line['passcorreo']."</td><td>".$line['passpst']."</td>"; echo "<td><label class='checkbox-inline'><input class = 'software' type='checkbox' value='".$line['Clave']."' data-nombrequipo='".$line['correo']."' data-estado='Asignada' >Asignar</label></td>";}
+ 	 					  if($herramienta == "4"){echo"<td>".$line['correo']."</td><td>".$line['passcorreo']."</td><td>".$line['passpst']."</td><td>".$line['passwindows']."</td>"; echo "<td><label class='checkbox-inline'><input class = 'software' type='checkbox' value='".$line['correo']."' data-nombrequipo='".$line['correo']."' data-estado='Asignada'>Asignar</label></td>";}
+ 	 					  if($herramienta == "5"){echo"<td>".$line['correo']."</td><td>".$line['passcorreo']."</td>"; echo "<td><label class='checkbox-inline'><input class = 'software' type='checkbox' value='".$line['Clave']."' data-nombrequipo='".$line['correo']."' data-estado='Asignada' >Asignar</label></td>";}
+ 	 					  if($herramienta == "6"){echo"<td>".$line['correo']."</td><td>".$line['passcorreo']."</td><td>".$line['passpst']."</td><td>".$line['passwindows']."</td>"; echo "<td><label class='checkbox-inline'><input class = 'software' type='checkbox' value='".$line['correo']."' data-nombrequipo='".$line['correo']."' data-estado='Asignada'>Asignar</label></td>";}
+ 						  if($herramienta == "7"){echo"<td>".$line['correo']."</td><td>".$line['passcorreo']."</td>"; echo "<td><label class='checkbox-inline'><input class = 'software' type='checkbox' value='".$line['Clave']."' data-nombrequipo='".$line['correo']."' data-estado='Asignada'>Asignar</label></td>";}
               echo "<tr>";
 						}
 						echo "</tbody>

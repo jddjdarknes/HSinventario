@@ -67,12 +67,12 @@ else{
           $div="";
           if(herramienta == 1){$div = "ServidorVirtual";}
           //if(herramienta == 2){$div = "UnidadesRed";}
-          if(herramienta == 3){$div = "Contabilidad";}
-          if(herramienta == 4){$div = "Facturacion";}
-          if(herramienta == 5){$div = "Giro";}
-          if(herramienta == 6){$div = "SistemasTicket";}
-          if(herramienta == 7){$div = "GiroWeb";}
-          if(herramienta == 8){$div = "Correo";}
+          if(herramienta == 2){$div = "Contabilidad";}
+          if(herramienta == 3){$div = "Facturacion";}
+          if(herramienta == 4){$div = "Giro";}
+          if(herramienta == 5){$div = "SistemasTicket";}
+          if(herramienta == 6){$div = "GiroWeb";}
+          if(herramienta == 7){$div = "Correo";}
           //alert("DIV: "+herramienta);
           $.post( "HerramientaS_ajax.php",{page:page,herramienta:herramienta,action:"ajax"},function( data ) {
             $( "#"+$div ).html( data );
@@ -274,7 +274,8 @@ else{
             //alert("Siguiente");
             $("input:checkbox:checked").each(
               function() {
-                //alert("El checkbox con valor " + $(this).val() + " está seleccionado");
+                alert("El checkbox con valor " + $(this).val() + " está seleccionado");
+
                 if($(this).val() == 1){
                   $.post( "HerramientaH_ajax.php" ,{herramienta:1,action:"ajax"},function( data ) {
                     $("#Hard").append("<div align='left' id='com' class='Hardware panel panel-info'>"+
@@ -325,7 +326,7 @@ else{
 
                   if($(this).val() == 5){
                     $.post( "HerramientaH_ajax.php",{herramienta:5,action:"ajax"},function( data ) {
-                      $("#Hard").append("<div align='left' id='alm' class='Hardware panel panel-info' hidden>"+
+                      $("#Hard").append("<div align='left' id='alm' class='Hardware panel panel-info'>"+
                                         "<div class='panel-heading'>Hardware: Almacenamiento</div>"+
                                         "<div id='Almacenamiento' class='panel-body'>"+
                                         "<div class='col-sm-2'></div>"+
@@ -360,7 +361,7 @@ else{
                 }
 
                 if($(this).val() == 8){
-                  $.post( "HerramientaS_ajax.php",{herramienta:3,action:"ajax"},function( data ) {
+                  $.post( "HerramientaS_ajax.php",{herramienta:2,action:"ajax"},function( data ) {
                     $("#Soft").append("<div align='left' id='cont' class='Software panel panel-success'>"+
                                       "<div class='panel-heading'>Software: Contabilidad </div>"+
                                       "<div id='Contabilidad' class='panel-body'>"+
@@ -372,7 +373,7 @@ else{
                 }
 
                 if($(this).val() == 9){
-                  $.post( "HerramientaS_ajax.php",{herramienta:4,action:"ajax"},function( data ) {
+                  $.post( "HerramientaS_ajax.php",{herramienta:3,action:"ajax"},function( data ) {
                     $("#Soft").append("<div align='left' id='fac' class='Software panel panel-success'>"+
                                       "<div class='panel-heading'>Software: Facturación</div>"+
                                       "<div id='Facturacion' class='panel-body'>"+
@@ -384,8 +385,8 @@ else{
                 }
 
                 if($(this).val() == 10){
-                  $.post( "HerramientaS_ajax.php",{herramienta:5,action:"ajax"},function( data ) {
-                    $("#Soft").append("<div align='left' id='gi' class='Software panel panel-success' hidden>"+
+                  $.post( "HerramientaS_ajax.php",{herramienta:4,action:"ajax"},function( data ) {
+                    $("#Soft").append("<div align='left' id='gi' class='Software panel panel-success'>"+
                                       "<div class='panel-heading'>Software: Giro</div>"+
                                       "<div id='Giro' class='panel-body'>"+
                                       "<div class='col-sm-2'></div>"+
@@ -396,7 +397,7 @@ else{
                 }
 
                 if($(this).val() == 11){
-                  $.post( "HerramientaS_ajax.php",{herramienta:6,action:"ajax"},function( data ) {
+                  $.post( "HerramientaS_ajax.php",{herramienta:5,action:"ajax"},function( data ) {
                     $("#Soft").append("<div align='left' id='sist' class='Software panel panel-success'>"+
                                     "<div class='panel-heading'>Software: Sistema de Tickets</div>"+
                                     "<div id='SistemaTicket' class='panel-body'>"+
@@ -408,7 +409,7 @@ else{
                 }
 
                 if($(this).val() == 12){
-                  $.post( "HerramientaS_ajax.php",{herramienta:7,action:"ajax"},function( data ) {
+                  $.post( "HerramientaS_ajax.php",{herramienta:6,action:"ajax"},function( data ) {
                     $("#Soft").append("<div align='left' id='gir' class='Software panel panel-success'>"+
                                       "<div class='panel-heading'>Software: Giro Web</div>"+
                                       "<div id='GiroWeb' class='panel-body'>"+
@@ -420,15 +421,13 @@ else{
                 }
 
                 if($(this).val() == 13){
-                  $.post( "HerramientaS_ajax.php",{herramienta:8,action:"ajax"},function( data ) {
+                  $.post( "HerramientaS_ajax.php",{herramienta:7,action:"ajax"},function( data ) {
                     $("#Soft").append("<div align='left' id='cor' class='Software panel panel-success'>"+
                                       "<div class='panel-heading'>Software: Correo</div>"+
                                       "<div id='Correo' class='panel-body'>"+
-                                      "<div class='col-sm-2'></div>"+
-                                      "</div></div>");
+                                      "<div class='col-sm-2'></div></div></div>");
+                    $( "#Correo" ).html( data );
                   });
-                  $( "#Correo" ).html( data );
-                  //$("#cor").show();
                 }
               });
 
