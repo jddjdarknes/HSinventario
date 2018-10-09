@@ -3,9 +3,7 @@ session_start();
 include 'conexion.php';
 # conectare la base de datos
  $herramienta = (isset($_POST['herramienta'])&& $_POST['herramienta'] !=NULL)?$_POST['herramienta']:'';
- //echo "Herramienta: ".$herramienta."<br>";
 			# code...
-			//echo "Usuario: ".$usuario."<br>";
 			$action = (isset($_POST['action'])&& $_POST['action'] !=NULL)?$_POST['action']:'';
 			if($action == 'ajax'){
 				include 'pagina.php'; //incluir el archivo de paginación
@@ -20,7 +18,7 @@ include 'conexion.php';
 				if($offset != 0){$contador1=$offset+4;}
 				if($offset != 0){$contador2 = $offset+1; }
 				//Cuenta el número total de filas de la tabla*/
-        echo "Herraminta: ".$herramienta."<br>";
+        //echo "Herraminta: ".$herramienta."<br>";
         if($herramienta == 1){
           $count_query = sqlsrv_query($conexion,"SELECT count(*) AS numrows
           FROM Herramienta

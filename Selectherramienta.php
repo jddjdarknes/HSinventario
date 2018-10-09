@@ -253,14 +253,16 @@ include ('conexion.php');
   <div class="tab-content">
     <div id="home" class="tab-pane fade in active">
       <div class="button-group">
-        <button data-id="computer" stype="button" name="button"> <img src="imagenes/icons/computer.png" high = "150px" width = "150px" alt=""><br> Computadora </button>
-        <button data-id="telefonia" type="button" name="button"> <img src="imagenes/icons/Phone.png" high = "150px" width = "150px" alt=""> <br> Telefonia </button>
-        <button data-id="impresora" type="button" name="button"> <img src="imagenes/icons/impresora.png" high = "150px" width = "150px" alt=""> <br> Impresora </button>
-        <button data-id="complemento" type="button" name="button"> <img src="imagenes/icons/complemento.png" high = "150px" width = "150px" alt=""> <br> Complemento </button>
-        <button data-id="almacenamiento" type="button" name="button"> <img src="imagenes/icons/almacenamiento.png" high = "150px" width = "150px" alt=""> <br> Almacenaminto </button>
-        <button data-id="red"type="button" name="button"> <img src="imagenes/icons/red.png" high = "150px" width = "150px" alt=""> <br> Red </button>
+        <button data-id="computer" stype="button" name="button"><i class="material-icons" style="font-size:150px;color:black">desktop_windows</i><br> Computadora </button> <!--<img src="imagenes/icons/computer.png" high = "150px" width = "150px" alt="">-->
+        <button data-id="telefonia" type="button" name="button"><i class="material-icons" style="font-size:150px;color:black">phone</i><br> Telefonia </button> <!--<img src="imagenes/icons/Phone.png" high = "150px" width = "150px" alt="">-->
+        <button data-id="impresora" type="button" name="button"><i class="material-icons" style="font-size:150px;color:black">print</i><br> Impresora </button> <!--<img src="imagenes/icons/impresora.png" high = "150px" width = "150px" alt="">-->
+        <button data-id="complemento" type="button" name="button"><i class="material-icons" style="font-size:150px;color:black">important_devices</i><br> Complemento </button>  <!--<img src="imagenes/icons/complemento.png" high = "150px" width = "150px" alt="">-->
+        <button data-id="almacenamiento" type="button" name="button"><span class="glyphicon glyphicon-hdd" style="font-size:150px;color:black"></span><br> Almacenaminto </button> <!--<img src="imagenes/icons/almacenamiento.png" high = "150px" width = "150px" alt="">-->
+        <button data-id="red"type="button" name="button"><i class="material-icons" style="font-size:150px;color:black">router</i><br> Red </button>
       </div>
-      <div class=""> <button id = "ocultar" type="button" name="button">Ocultar</button> </div>
+
+      <!---<div class=""> <button id = "ocultar" type="button" name="button">Ocultar</button> </div>-->
+
       <div id="computer" hidden>
         <div class="panel panel-primary">
           <div class="panel-heading">Escritorio</div>

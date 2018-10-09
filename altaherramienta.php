@@ -75,6 +75,7 @@
           <script type="text/javascript">
           $buscando="";
           function load(page,herramienta,buscando){
+            alert("Page: "+page+" Herramienta: "+herramienta+" Buscando: "+buscando);
             //alert("Aqui esta");
             $.post( "HerramientaH_ajax.php",
             {page:page,herramienta:herramienta,action:"ajax",buscando:$buscando}
@@ -83,6 +84,22 @@
               $("#herramienta").html(data);
              });
           }
+
+          function load(page,herramienta){
+            alert("Page: "+page+" Herramienta: "+herramienta);
+            //alert("Aqui esta");
+            $.post( "HerramientaH_ajax.php",
+            {
+              page:page,
+              herramienta:herramienta,
+              action:"ajax"
+            }
+            ,function( data ) {
+              $("#herramienta").empty();
+              $("#herramienta").html(data);
+             });
+          }
+
           function redireccionar(){
               window.location="altaherramienta.php";
           }
@@ -92,7 +109,7 @@
              //alert("Aqui");
              $buscarherramienta = $( "#buscarH" ).val();
              $buscando = $buscarherramienta;
-             if($buscarherramienta == " "){
+             if($buscarherramienta == ""){
                $("#herramienta").empty();
              }else{
                $.post("HerramientaH_ajax.php",

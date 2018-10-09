@@ -67,12 +67,12 @@ else{
           $div="";
           if(herramienta == 1){$div = "ServidorVirtual";}
           //if(herramienta == 2){$div = "UnidadesRed";}
-          if(herramienta == 3){$div = "Contabilidad";}
-          if(herramienta == 4){$div = "Facturacion";}
-          if(herramienta == 5){$div = "Giro";}
-          if(herramienta == 6){$div = "SistemasTicket";}
-          if(herramienta == 7){$div = "GiroWeb";}
-          if(herramienta == 8){$div = "Correo";}
+          if(herramienta == 2){$div = "Contabilidad";}
+          if(herramienta == 3){$div = "Facturacion";}
+          if(herramienta == 4){$div = "Giro";}
+          if(herramienta == 5){$div = "SistemasTicket";}
+          if(herramienta == 6){$div = "GiroWeb";}
+          if(herramienta == 7){$div = "Correo";}
           //alert("DIV: "+herramienta);
           $.post( "HerramientaS_ajax.php",{page:page,herramienta:herramienta,action:"ajax"},function( data ) {
             $( "#"+$div ).html( data );
@@ -275,101 +275,159 @@ else{
             $("input:checkbox:checked").each(
               function() {
                 //alert("El checkbox con valor " + $(this).val() + " está seleccionado");
+
                 if($(this).val() == 1){
                   $.post( "HerramientaH_ajax.php" ,{herramienta:1,action:"ajax"},function( data ) {
+                    $("#Hard").append("<div align='left' id='com' class='Hardware panel panel-info'>"+
+                                      "<div class='panel-heading'>Hardware: Computadora</div>"+
+                                      "<div id='Computadora' class='panel-body'>"+
+                                      "<div class='col-sm-2'></div>"+
+                                      "</div></div>");
                     $( "#Computadora" ).html( data );
                   });
-                  $( "#com" ).show();
+                  //$( "#com" ).show();
                 }
 
                 if($(this).val() == 2){
                   $.post( "HerramientaH_ajax.php",{herramienta:2,action:"ajax"},function( data ) {
+                    $("#Hard").append("<div align='left' id='tele' class='Hardware panel panel-info'>"+
+                                      "<div class='panel-heading'>Hardware: Telefonia</div>"+
+                                      "<div id='Telefonia' class='panel-body'>"+
+                                      "<div class='col-sm-2'></div>"+
+                                      "</div></div>");
                     $( "#Telefonia" ).html( data );
                   });
-                  $("#tele").show();
+                  //$("#tele").show();
                 }
 
                  if($(this).val() == 3){
                    $.post( "HerramientaH_ajax.php",{herramienta:3,action:"ajax"},function( data ) {
+                     $("#Hard").append("<div align='left' id='imp' class='Hardware panel panel-info'>"+
+                                       "<div class='panel-heading'>Hardware: Impresora/Consumible</div>"+
+                                       "<div id='Impresora' class='panel-body'>"+
+                                       "<div class='col-sm-2'></div>"+
+                                       "</div></div>");
                      $( "#Impresora" ).html( data );
                    });
-                   $("#imp").show();
+                   //$("#imp").show();
                  }
 
                  if($(this).val() == 4){
                    $.post( "HerramientaH_ajax.php",{herramienta:4,action:"ajax"},function( data ) {
+                     $("#Hard").append("<div align='left' id='comp' class='Hardware panel panel-info'>"+
+                                      "<div class='panel-heading'>Hardware: Accesorio</div>"+
+                                      "<div id='Complemento' class='panel-body'>"+
+                                      "<div class='col-sm-2'></div>"+
+                                      "</div></div>");
                      $( "#Complemento" ).html( data );
                    });
-                   $("#comp").show();
+                   //$("#comp").show();
                  }
 
                   if($(this).val() == 5){
                     $.post( "HerramientaH_ajax.php",{herramienta:5,action:"ajax"},function( data ) {
+                      $("#Hard").append("<div align='left' id='alm' class='Hardware panel panel-info'>"+
+                                        "<div class='panel-heading'>Hardware: Almacenamiento</div>"+
+                                        "<div id='Almacenamiento' class='panel-body'>"+
+                                        "<div class='col-sm-2'></div>"+
+                                        "</div></div>");
                       $( "#Almacenamiento" ).html( data );
                     });
-                    $("#alm").show();
+                    //$("#alm").show();
                   }
 
                 if($(this).val() == 6){
                   $.post( "HerramientaH_ajax.php",{herramienta:6,action:"ajax"},function( data ) {
+                    $("#Hard").append("<div align='left' id='re' class='Hardware panel panel-info'>"+
+                                      "<div class='panel-heading'>Hardware: Red</div>"+
+                                      "<div id='Red' class='panel-body'>"+
+                                      "<div class='col-sm-2'></div>"+
+                                      "</div></div>");
                     $( "#Red" ).html( data );
                   });
-                  $("#re").show();
+                  //$("#re").show();
                 }
 
                 if($(this).val() == 7){
                   $.post( "HerramientaS_ajax.php" ,{herramienta:1,action:"ajax"},function( data ) {
+                    $("#Soft").append("<div align='left' id='serv' class='Software panel panel-success'>"+
+                                      "<div class='panel-heading'>Software: Servidor Virtual</div>"+
+                                      "<div id='ServidorVirtual' class='panel-body'>"+
+                                      "<div class='col-sm-2'></div>"+
+                                      "</div></div>");
                     $( "#ServidorVirtual" ).html( data );
                   });
-                  $("#serv").show();
+                  //$("#serv").show();
                 }
 
-                /*if($(this).val() == ){
-
-                  $.post( "HerramientaS_ajax.php",{herramienta:2,action:"ajax"},function( data ) {
-                    $( "#UnidadRed" ).html( data );
-                  });}*/
-
                 if($(this).val() == 8){
-                  $.post( "HerramientaS_ajax.php",{herramienta:3,action:"ajax"},function( data ) {
+                  $.post( "HerramientaS_ajax.php",{herramienta:2,action:"ajax"},function( data ) {
+                    $("#Soft").append("<div align='left' id='cont' class='Software panel panel-success'>"+
+                                      "<div class='panel-heading'>Software: Contabilidad </div>"+
+                                      "<div id='Contabilidad' class='panel-body'>"+
+                                      "<div class='col-sm-2'></div>"+
+                                      "</div></div>");
                     $( "#Contabilidad" ).html( data );
                   });
-                  $("#cont").show();
+                  //$("#cont").show();
                 }
 
                 if($(this).val() == 9){
-                  $.post( "HerramientaS_ajax.php",{herramienta:4,action:"ajax"},function( data ) {
+                  $.post( "HerramientaS_ajax.php",{herramienta:3,action:"ajax"},function( data ) {
+                    $("#Soft").append("<div align='left' id='fac' class='Software panel panel-success'>"+
+                                      "<div class='panel-heading'>Software: Facturación</div>"+
+                                      "<div id='Facturacion' class='panel-body'>"+
+                                      "<div class='col-sm-2'></div>"+
+                                      "</div></div>");
                     $( "#Facturacion" ).html( data );
                   });
-                    $( "#fac" ).show();
+                    //$( "#fac" ).show();
                 }
 
                 if($(this).val() == 10){
-                  $.post( "HerramientaS_ajax.php",{herramienta:5,action:"ajax"},function( data ) {
+                  $.post( "HerramientaS_ajax.php",{herramienta:4,action:"ajax"},function( data ) {
+                    $("#Soft").append("<div align='left' id='gi' class='Software panel panel-success'>"+
+                                      "<div class='panel-heading'>Software: Giro</div>"+
+                                      "<div id='Giro' class='panel-body'>"+
+                                      "<div class='col-sm-2'></div>"+
+                                      "</div></div>");
                     $( "#Giro" ).html( data );
                   });
                   $("#gi").show();
                 }
 
                 if($(this).val() == 11){
-                  $.post( "HerramientaS_ajax.php",{herramienta:6,action:"ajax"},function( data ) {
+                  $.post( "HerramientaS_ajax.php",{herramienta:5,action:"ajax"},function( data ) {
+                    $("#Soft").append("<div align='left' id='sist' class='Software panel panel-success'>"+
+                                    "<div class='panel-heading'>Software: Sistema de Tickets</div>"+
+                                    "<div id='SistemaTicket' class='panel-body'>"+
+                                    "<div class='col-sm-2'></div>"+
+                                    "</div></div>");
                     $( "#SistemaTicket" ).html( data );
                   });
-                  $("#sist").show();
+                  //$("#sist").show();
                 }
 
                 if($(this).val() == 12){
-                  $.post( "HerramientaS_ajax.php",{herramienta:7,action:"ajax"},function( data ) {
+                  $.post( "HerramientaS_ajax.php",{herramienta:6,action:"ajax"},function( data ) {
+                    $("#Soft").append("<div align='left' id='gir' class='Software panel panel-success'>"+
+                                      "<div class='panel-heading'>Software: Giro Web</div>"+
+                                      "<div id='GiroWeb' class='panel-body'>"+
+                                      "<div class='col-sm-2'></div>"+
+                                      "</div></div>");
                     $( "#GiroWeb" ).html( data );
                   });
-                  $("#git").show();
+                  //$("#git").show();
                 }
 
                 if($(this).val() == 13){
-                  $.post( "HerramientaS_ajax.php",{herramienta:8,action:"ajax"},function( data ) {
+                  $.post( "HerramientaS_ajax.php",{herramienta:7,action:"ajax"},function( data ) {
+                    $("#Soft").append("<div align='left' id='cor' class='Software panel panel-success'>"+
+                                      "<div class='panel-heading'>Software: Correo</div>"+
+                                      "<div id='Correo' class='panel-body'>"+
+                                      "<div class='col-sm-2'></div></div></div>");
                     $( "#Correo" ).html( data );
                   });
-                  $("#cor").show();
                 }
               });
 
@@ -982,58 +1040,10 @@ else{
     <div id="datosasignacion" class="col-sm-8"></div>
     <div class="col-sm-5" id="datosherramientas">
       <div id='Hard'></div>
-
-      <div align='left' id="com" class="Hardware panel panel-info" hidden>
-        <div class="panel-heading">Hardware: Computadora</div>
-        <div id="Computadora" class="panel-body">
-          <div  class="col-sm-2"></div>
-        </div>
-      </div>
-
-      <div align='left' id="tele" class="Hardware panel panel-info" hidden>
-        <div class="panel-heading">Hardware: Telefonia</div>
-        <div id="Telefonia" class="panel-body">
-          <div class="col-sm-2"></div>
-        </div>
-      </div>
-
-      <div align='left' id="imp" class="Hardware panel panel-info" hidden>
-        <div class="panel-heading">Hardware: Impresora/Consumible</div>
-        <div id="Impresora" class="panel-body">
-          <div class="col-sm-2"></div>
-        </div>
-      </div>
-
-      <div align='left' id="comp" class="Hardware panel panel-info" hidden>
-        <div class="panel-heading">Hardware: Accesorio</div>
-        <div id="Complemento" class="panel-body">
-          <div class="col-sm-2"></div>
-         </div>
-       </div>
-
-       <div align='left' id="alm" class="Hardware panel panel-info" hidden>
-         <div class="panel-heading">Hardware: Almacenamiento</div>
-         <div id="Almacenamiento" class="panel-body">
-           <div class="col-sm-2"></div>
-         </div>
-       </div>
-
-       <div align='left' id="re" class="Hardware panel panel-info" hidden>
-         <div class="panel-heading">Hardware: Red</div>
-         <div id="Red" class="panel-body">
-           <div class="col-sm-2"></div>
-         </div>
-       </div>
-     </div>
+    </div>
 
     <div id="datosherramientas2" class="col-sm-5">
       <div id='Soft'></div>
-      <div align="left" id="serv" class="Software panel panel-success" hidden>
-        <div class="panel-heading">Software: Servidor Virtual</div>
-        <div id="ServidorVirtual" class="panel-body">
-          <div class="col-sm-2"></div>
-        </div>
-      </div>
 
       <!-- <div align="left" id="uni" class="Software panel panel-success" hidden>
         <div class="panel-heading">Software: Unidad de Red</div>
@@ -1041,48 +1051,6 @@ else{
           <div class="col-sm-2"></div>
         </div>
       </div> -->
-
-      <div align="left" id="cont" class="Software panel panel-success" hidden>
-        <div class="panel-heading">Software: Contabilidad </div>
-        <div id="Contabilidad" class="panel-body">
-          <div class="col-sm-2"></div>
-        </div>
-      </div>
-
-      <div align="left" id="fac" class="Software panel panel-success" hidden>
-        <div class="panel-heading">Software: Facturación</div>
-        <div id="Facturacion" class="panel-body">
-          <div class="col-sm-2"></div>
-        </div>
-      </div>
-
-      <div align="left" id="gi" class="Software panel panel-success" hidden>
-        <div class="panel-heading">Software: Giro</div>
-        <div id="Giro" class="panel-body">
-          <div class="col-sm-2"></div>
-        </div>
-      </div>
-
-      <div align="left" id="sist" class="Software panel panel-success" hidden>
-        <div class="panel-heading">Software: Sistema de Tickets</div>
-        <div id="SistemaTicket" class="panel-body">
-          <div class="col-sm-2"></div>
-        </div>
-      </div>
-
-      <div align="left" id="gir" class="Software panel panel-success" hidden>
-        <div class="panel-heading">Software: Giro Web</div>
-        <div id="GiroWeb" class="panel-body">
-          <div class="col-sm-2"></div>
-        </div>
-      </div>
-
-      <div align="left" id="cor" class="Software panel panel-success" hidden>
-        <div class="panel-heading">Software: Correo</div>
-        <div id="Correo" class="panel-body">
-          <div class="col-sm-2"></div>
-        </div>
-      </div>
     </div><!--<div id="asignacion" class="col-sm-5"></div><div class="col-sm-2"></div><div id="botones" class="col-sm-10"></div>-->
 
     <footer class="col-sm-12">
