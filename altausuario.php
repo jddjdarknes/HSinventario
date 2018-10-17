@@ -380,9 +380,7 @@ else{
         });
         </script>
     </head>
-    <?php  if($_SESSION['departamento'] == '192 [SISTEMAS]' and $sistemas !== false){
-      //echo "Si es de Sistemas.";
-      ?>
+    <?php  if($_SESSION['departamento'] == '192 [SISTEMAS]' and $sistemas !== false){?>
     <body>
 
         <!-- Top menu -->
@@ -759,166 +757,376 @@ else{
 
       <?php }elseif($_SESSION['departamento'] == "161 [RECLUTAMIENTO]" and $rh !== false){//echo "No es Sistemas.";?>
       <body>
-        <!-- Top menu -->
-       <div align="left">
-         <a href="index.php">
-           <img src="assets/img/logo-human.png" height="80px">
-         </a>
-       </div>
 
-        <div class="navbar">
-          <div class="col-sm-3"></div>
-           <div class="collapse navbar-collapse col-sm-4" align="center">
-            <ul class="nav navbar-nav">
-             <li class="active"><a href="altausuario.php">manejo de personal</a></li>
-             <li><a href="consultarusuario.php">consulta de asignación</a></li>
-             <li><a href="logout.php">Salir</a></li>
-            </ul>
-          </div>
+          <!-- Top menu -->
+     <div align="left">
+       <a href="index.php">
+         <img src="assets/img/logo-human.png" height="80px">
+       </a>
+     </div>
+
+      <div class="navbar">
+        <div class="col-sm-2"></div>
+         <div class="collapse navbar-collapse col-sm-4" align="center">
+          <ul class="nav navbar-nav">
+           <li class="active"><a href="altausuario.php"><i style="font-size:24px" class="fa fa-user-plus"></i><br>Alta usuario</a></li>
+           <li><a href="asignarherramientas.php"><i class="fa fa-edit" style="font-size:24px"></i><br>peticion herramientas</a></li>
+           <li><a href="consultarusuario.php"><i class="fa fa-address-book" style="font-size:24px"></i><br>Consultar usuario</a></li>
+           <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+            <i class="fa fa-user-circle-o" style="font-size:24px"></i><br><?php echo $_SESSION['personal']; ?></a>
+            <ul class="dropdown-menu two" role="menu">
+            <li><a href="logout.php">Salir</a></li>
+          </ul>
+         </li>
+        </ul>
         </div>
-        <!-- Slider -->
-        <div class="col-sm-3"></div>
-        <div class="fondo col-sm-6 panel panel-default">
-            <form id='form' class="form-horizontal" >
-              <div id="nuevosdatos">
-               <div id="nuevopersonal">
-                <div class='form-group col-sm-12'>
-                  <div id='fondo' align='left'> <h2 id='h2'>Nuevo Usuario:</h2> </div>
-                  <label class='control-label col-sm-3' for='nombre'>Nombre(s): </label>
-                  <div class='col-sm-9'>
-                    <input type='textbox' class='form-control' name='nombre' id='nombre' placeholder='Ingrese nombre' data-toggle="tooltip" title="Hooray!" required>
+      </div>
+
+          <!-- Slider -->
+          <div class="slider-container">
+            <div class="col-sm-2">
+              <div class="" align="left">
+                <h3 id="h2">Nuevo usuario.</h3>
+                <!-- <button id="btnperfil" class="btn" type="button" name="button"></button>-->
+                <button id="btnpersonal" class="btn btn-block" type="button" name="button">Usuario</button>
+              </div>
+
+              <div class="" align="left">
+               <h3 id="h2">Buscar usuario.</h3>
+                <input class="col-sm-12" type="textarea"  id="bpersonal" >
+              </div>
+
+              <div><br>
+              <?php
+              $count_query = sqlsrv_query($conexion,"SELECT count(*) AS numrows FROM peticion where atendido = 1");
+              if ($row= sqlsrv_fetch_array($count_query)){$numrows = $row['numrows'];}
+              if($numrows != '0'){
+                 echo "<button type='button' class='btn btn-block' data-toggle='modal' data-target='#Modalusuario'>Petición de nuevo usuario</button>";
+                /*$parts = explode(",",$frace);
+                print_r($parts);*/
+              }
+              ?>
+             </div>
+            </div>
+
+            <!-- Modal -->
+            <div id="Modalusuario" class="modal fade" role="dialog">
+              <div class="modal-dialog modal-lg">
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Petición de nuevo usuario</h4>
+                  </div>
+                  <div class="modal-body">
+                    <p><?php
+                     $sql = "SELECT * FROM peticion where atendido != 0";
+                     $resultado = sqlsrv_query($conexion,$sql);
+                     echo "<table class='table table-striped'>
+                            <thead>
+                            <tr>
+                              <th>Nombre(s)</th>
+                              <th>Apellidos</th>
+                              <th>Departamento</th>
+                              <th>Puesto</th>
+                              <th>Localidad</th>
+                              <th>Coordinador</th>
+                              <th>Perfil</th>
+                            </tr>
+                            </thead><tbody>";
+                     while ($line = sqlsrv_fetch_array($resultado,SQLSRV_FETCH_ASSOC)) {
+                       $datos= explode(",",$line['datos']);
+                       $nombre = explode("Nombre(s):",$datos[1]);
+                       $apellido = explode("Apellidos:",$datos[2]);
+                       $departamento = explode("Departamento:",$datos[3]);
+                       $puesto = explode("Puesto:",$datos[4]);
+                       $localidad = explode("Localidad:",$datos[5]);
+                       $coordinador = explode("Coordinador:",$datos[6]);
+                       $perfil = explode("Perfil:",$datos[7]);
+                       echo "<tr>
+                       <td>".$nombre[1]."</td>";
+                       echo "<td>".$apellido[1]."</td>";
+                       echo "<td>".$departamento[1]."</td>";
+                       echo "<td>".$puesto[1]."</td>";
+                       echo "<td>".$localidad[1]."</td>";
+                       echo "<td>".$coordinador[1]."</td>";
+                       echo "<td>".$perfil[1]."</td>";
+                       echo "<td align='right'><button id='botonmandar' class='btn btn-xs' type='button' name='button' data-dismiss='modal'
+                       data-id = '".$line['idpeticion']."',
+                       data-nombre='".$nombre[1]."',
+                       data-apellidos='".$apellido[1]."',
+                       data-departamento='".$departamento[1]."',
+                       data-puesto='".$puesto[1]."',
+                       data-localidad='".$localidad[1]."',
+                       data-coordinador='".$coordinador[1]."',
+                       data-perfil='".$perfil[1]."''
+                       >Mandar datos</button></td>
+                       </tr>";
+                     }
+                     echo "</tbody>
+                     </table>";
+                     ?></p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                   </div>
                 </div>
 
-                <div class='form-group col-sm-12'>
-                  <label class='control-label col-sm-3' for='apellidos'>Apellidos: </label>
-                  <div class='col-sm-9'>
-                    <input type='textbox' class='form-control' id='apellidos' name = 'apellidos' placeholder='Ingrese apellidos.' required>
-                  </div>
-                </div>
-
-                <div class='form-group col-sm-12'>
-                  <label class='control-label col-sm-3' for='departamento'>Departamento: </label>
-                  <div class='col-sm-9'>
-                    <input type='textbox' class='form-control' name = 'departamento' id='departamento' placeholder='Ingrese departamento.' required>
-                  </div>
-                </div>
-
-                <div class='form-group col-sm-12'>
-                  <label class='control-label col-sm-3' for='puesto'>Puesto: </label>
-                  <div class='col-sm-9'>
-                    <input type='textbox' class='form-control' name = 'puesto' id='puesto' placeholder='Ingrese puesto.' required>
-                  </div>
-                </div>
-
-                <div class='form-group col-sm-12'>
-                  <label class='control-label col-sm-3' for='localidad'>Localidad: </label>
-                  <div class='col-sm-9'>
-                    <input type='textbox' class='form-control' name = 'localidad' id='localidad' placeholder='Ingrese localidad.' required>
-                  </div>
-                </div>
-                <div class='form-group col-sm-12'>
-                  <label class='control-label col-sm-3' for='coordinador'>Coordinador: </label>
-                  <div class='col-sm-9'>
-                    <select class='form-control' id='coordinador' name='coordinador'>
-                      <option value=""></option>
-                      <?php
-                      $sql = "Select * from personal where perfil = 'Coordinador' and estatus != '0';";
-                      $resultado = sqlsrv_query($conexion,$sql);
-                      while( $rows = sqlsrv_fetch_array( $resultado, SQLSRV_FETCH_ASSOC) ) {
-                        echo "<option value='".$rows['Nombres']." ".$rows['apellidos']."'>".$rows['Nombres']." ".$rows['apellidos']."</option>";
-                      }
-                      ?>
-                      <!-- Ingrid Vasquez Rios</option> -->
-                    </select>
-                  </div>
-                </div>
-                <div class='form-group col-sm-12'>
-                  <label class='control-label col-sm-3' for='perfil'>Perfil: </label>
-                  <div class='col-sm-9'>
-                    <select class='form-control' id='perfil' name='perfil'>
-                      <option value=''></option>
-                      <option value='Sistemas'>Sistemas</option>
-                      <option value='Coordinador'>Coordinador</option>
-                      <option value='Recursos Humanos'>Recursos Humanos</option>
-                      <option value='Usuario'>Usuario</option>
-                    </select>
-                  </div>
-                </div>
               </div>
             </div>
-              <div id="btn">
-                <button id="btnlimpiar" type="button" class = "btn col-sm-5" name="button" onclick="Limpiar()">Limpiar</button>
-                <div class="col-sm-2"></div>
-                <button id="btnsiguiente" type="button" class = "btn col-sm-5" name="button">Siguiente</button>
-              </div>
-            </form>
 
-            <div id="mostrarherramientas" class="col-sm-12" hidden>
-              <div class="col-sm-12">
-                <h3>Herramientas<label id="nombrecompletos"></label></h3>
-              </div>
-              <div class="col-sm-4" id="" align="left">
-                <h4>Hardware</h4>
-                <input type="checkbox" value="Computadora" class="hardware" name="check"/> Computadora<br/>
-                <input type="checkbox" value="Telefonia" class="hardware" name="check"/> Telefonia<br/>
-                <input type="checkbox" value="Impresora/Consumible" class="hardware" name="check"/> Impresora/Consumible<br/>
-                <input type="checkbox" value="Accesorio" class="hardware" name="check"/> Accesorio<br/>
-                <input type="checkbox" value="Almacenamiento" class="hardware" name="check"/> Almacenamiento<br/>
-                <input type="checkbox" value="Red" class="hardware" name="check"/> Red<br/>
-              </div>
-             <div class="col-sm-4" id="" align="left">
-               <h4>Software</h4>
-               <input type="checkbox" value="ServidorVirtual" class="software" name="check" /> Servidor Virtual<br/>
-               <!--<input type="checkbox" value="8" id="Software" name="check" /> Unidad de Red<br/> -->
-               <input type="checkbox" value="Contabilidad" class="software" name="check" /> Contabilidad<br/>
-               <input type="checkbox" value="Facturación" class="software" name="check" /> Facturación<br/>
-               <input type="checkbox" value="Giro" class="software" name="check" /> Giro<br/>
-               <input type="checkbox" value="SistemaTickets" class="software" name="check" /> Sistema de Tickets<br/>
-               <input type="checkbox" value="GiroWeb" class="software" name="check" /> Giro Web<br/>
-              </div>
-              <div class="col-sm-4" align="left">
-                 <br><br>
-                 <input type="checkbox" value="Correo" class="software" name="check" /> Correo<br/>
-               </div>
-               <div class="col-sm-12"><br>
-                 <div class="col-sm-6">
-                   <button onclick="acancelar()" class="btn btn-primary col-sm-12" type="button" name="button">Cancelar</button>
-                 </div>
+            <div class="fondo col-sm-5 panel panel-default">
+                <form id='form' class="form-horizontal" action="Insertusuario.php" method="POST" enctype='multipart/form-data'>
+                  <div id="datos">
+                   <div id="nuevo" hidden>
+                    <div class='form-group col-sm-12'>
+                      <div id='fondo' align='left'> <h2 id='h2'>Nuevo Usuario:</h2> </div>
+                      <label class='control-label col-sm-3' for='usuario'>Usuario (ID): </label>
+                      <div class='col-sm-9'>
+                        <input type='textbox' class='form-control' id='usuario' name = 'usuario' placeholder='Ingrese usuario(ID).' required>
+                      </div>
+                    </div>
 
-                 <div class="col-sm-6">
-                   <button id="btnguardar" class='btn btn-success col-sm-12' type="button" name="button">Guadar</button>
-                 </div>
-               </div>
-           </div>
-        </div>
+                    <div class='form-group col-sm-12'>
+                      <label class='control-label col-sm-3' for='contraseña'>Contraseña: </label>
+                      <div class='col-sm-9'>
+                        <input type='textbox' class='form-control' id='contraseña' name = 'contraseña' placeholder='Ingrese contraseña.' required>
+                      </div>
+                    </div>
 
-        <div class="col-sm-3"></div>
+                    <div class='form-group col-sm-12'>
+                      <label class='control-label col-sm-3' for='nombre'>Nombre(s): </label>
+                      <div class='col-sm-9'>
+                        <input type='textbox' class='form-control' name='nombre' id='nombre' placeholder='Ingrese nombre' required>
+                      </div>
+                    </div>
 
-        <footer class="col-sm-12">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm- footer-copyright wow fadeIn">
-                <p>&copy; <?php $año = date("Y"); echo $año; ?> Human Services 21</p>
-              </div>
+                    <div class='form-group col-sm-12'>
+                      <label class='control-label col-sm-3' for='apellidos'>Apellidos: </label>
+                      <div class='col-sm-9'>
+                        <input type='textbox' class='form-control' id='apellidos' name = 'apellidos' placeholder='Ingrese apellidos.' required>
+                      </div>
+                    </div>
+
+                    <div class='form-group col-sm-12'>
+                      <label class='control-label col-sm-3' for='departamento'>Departamento: </label>
+                      <div class='col-sm-9'>
+                        <input type='textbox' class='form-control' name = 'departamento' id='departamento' placeholder='Ingrese departamento.'>
+                      </div>
+                    </div>
+
+                    <div class='form-group col-sm-12'>
+                      <label class='control-label col-sm-3' for='puesto'>Puesto: </label>
+                      <div class='col-sm-9'>
+                        <input type='textbox' class='form-control' name = 'puesto' id='puesto' placeholder='Ingrese puesto.'>
+                      </div>
+                    </div>
+
+                    <div class='form-group col-sm-12'>
+                      <label class='control-label col-sm-3' for='localidad'>Localidad: </label>
+                      <div class='col-sm-9'>
+                        <input type='textbox' class='form-control' name = 'localidad' id='localidad' placeholder='Ingrese localidad.'>
+                      </div>
+                    </div>
+
+                    <div class='form-group col-sm-12'>
+                      <label class='control-label col-sm-3' for='coordinador'>Coordinador: </label>
+                      <div class='col-sm-9'>
+                        <select class='form-control' id='coordinador' name='coordinador'>
+                          <option value=""></option>
+                          <?php
+                          $sql = "Select * from personal where perfil = 'Coordinador' and estatus != '0';";
+                          $resultado = sqlsrv_query($conexion,$sql);
+                          while( $rows = sqlsrv_fetch_array( $resultado, SQLSRV_FETCH_ASSOC) ) {
+                            echo "<option value='".$rows['Nombres']." ".$rows['apellidos']."'>".$rows['Nombres']." ".$rows['apellidos']."</option>";
+                          }
+                          ?>
+                          <!-- Ingrid Vasquez Rios</option> -->
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class='form-group col-sm-12'>
+                      <label class='control-label col-sm-3' for='perfil'>Perfil: </label>
+                      <div class='col-sm-9'>
+                        <select class='form-control' id='perfil' name='perfil'>
+                          <option value=''></option>
+                          <option value='Sistemas'>Sistemas</option>
+                          <option value='Coordinador'>Coordinador</option>
+                          <option value='Recursos Humanos'>Recursos Humanos</option>
+                          <option value='Usuario'>Usuario</option>
+                        </select>
+                      </div>
+                    </div>
+                    <input type='textbox' class='form-control' id='peticion' name = 'peticion' style="visibility:hidden">
+
+                  </div>
+                </div>
+                  <div id="botones"></div>
+                </form>
+
+                <div id="actualizar" hidden> <div id='fondo' align='left'> <h2 id='h2'>Personal: <lavel id='nombrecompleto'></lavel></h2></div>
+
+                  <div class='form-group col-sm-12'>
+                    <label class='control-label col-sm-3' for='user'>usuario: </label>
+                    <div class='col-sm-8'>
+                      <input value = '' type='textbox' class='form-control' id='euser' name = 'euser' required>
+                    </div>
+                  </div>
+
+                  <div class='form-group col-sm-12'>
+                    <label class='control-label col-sm-3' for='password'>Contraseña: </label>
+                    <div class='col-sm-8'>
+                      <input value = '' type='textbox' class='form-control' id='epassword' name = 'epassword'>
+                    </div>
+                  </div>
+
+                  <div class='form-group col-sm-12'>
+                    <label class='control-label col-sm-3' for='nombre'>Nombre(s): </label>
+                    <div class='col-sm-8'>
+                      <input value='' type='textbox' class='form-control' name='enombre' id='enombre'>
+                    </div>
+                  </div>
+
+                  <div class='form-group col-sm-12'>
+                    <label class='control-label col-sm-3' for='apellidos'>Apellidos: </label>
+                    <div class='col-sm-8'>
+                      <input value = '' type='textbox' class='form-control' id='eapellidos' name = 'eapellidos'>
+                    </div>
+                  </div>
+
+                  <div class='form-group col-sm-12'>
+                      <label class='control-label col-sm-3' for='departamento'>Departamento: </label>
+                      <div class='col-sm-8'>
+                        <input value = '' type='textbox' class='form-control' name = 'edepartamento' id='edepartamento'>
+                    </div>
+                  </div>
+
+                  <div class='form-group col-sm-12'>
+                      <label class='control-label col-sm-3' for='puesto'>Puesto: </label>
+                      <div class='col-sm-8'>
+                        <input value = '' type='textbox' class='form-control' name = 'epuesto' id='epuesto'>
+                    </div>
+                  </div>
+
+                  <div class='form-group col-sm-12'>
+                    <label class='control-label col-sm-3' for='localidad'>Localidad: </label>
+                    <div class='col-sm-8'>
+                      <input value = '' type='textbox' class='form-control' name = 'elocalidad' id='elocalidad'>
+                    </div>
+                  </div>
+
+                  <div class='form-group col-sm-12'>
+                    <label class='control-label col-sm-3' for='coordinador'>Coordinador: </label>
+                    <div class='col-sm-8'>
+                      <select class='form-control' id='ecoordinador' name='ecoordinador'>
+                        <?php
+                        $sql = "Select * from personal where perfil = 'Coordinador' and estatus != '0';";
+                        $resultado = sqlsrv_query($conexion,$sql);
+                        while( $rows = sqlsrv_fetch_array( $resultado, SQLSRV_FETCH_ASSOC) ) {
+                          echo "<option value='".$rows['Nombres']." ".$rows['apellidos']."'>".$rows['Nombres']." ".$rows['apellidos']."</option>";
+                        }
+                        ?>
+                      </select>
+                    </div>
+                  </div>
+                  <div class='form-group col-sm-12'>
+                    <label class='control-label col-sm-3' for='perfil'>Perfil: </label>
+                    <div class='col-sm-8'>
+                      <select class='form-control' id='eperfil' name='perfil'>
+                        <option value='Sistemas'>Sistemas</option>
+                        <option value='Coordinador'>Coordinador</option>
+                        <option value='Recursos Humanos'>Recursos Humanos</option>
+                        <option value='Usuario'>Usuario</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group col-sm-12" id='status'> </div>
+                </div>
+                <div id="boton"></div>
             </div>
-          </div>
-        </footer>
-        <!---->
-          <!--  -->
-            <!-- Javascript -->
-            <script src="assets/js/jquery-1.11.1.min.js"></script>
-            <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-            <script src="assets/js/bootstrap-hover-dropdown.min.js"></script>
-            <script src="assets/js/wow.min.js"></script>
-            <script src="assets/js/retina-1.1.0.min.js"></script>
-            <script src="assets/js/jquery.magnific-popup.min.js"></script>
-            <script src="assets/flexslider/jquery.flexslider-min.js"></script>
-            <script src="assets/js/jflickrfeed.min.js"></script>
-            <script src="assets/js/masonry.pkgd.min.js"></script>
-            <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
-            <script src="assets/js/jquery.ui.map.min.js"></script>
-            <script src="assets/js/scripts.js"></script>
+            <div class="col-sm-5">
+              <div id="personal" class="col-sm-12 panel panel-default">
+                <div class="panel-group" id="accordion"><h3>Personal Registrado:</h3>
+                    <?php $contador = 0;
+                    $query = "select nombredepartamento
+                              from servicio.dbo.departamento";
+                    $consulta = sqlsrv_query($conexion,$query);
+                    while ($rows = sqlsrv_fetch_array($consulta,SQLSRV_FETCH_ASSOC)) {
+                    echo "
+                    <div class='panel panel-default'>
+                    <div class='panel-heading'>
+                      <h4 class='panel-title'>
+                        <a data-toggle='collapse' data-parent='#accordion' href='#collapse".$contador."'>".$rows['nombredepartamento']."</a>
+                      </h4>
+                    </div>";
+
+                    echo "<div id='collapse".$contador."' class='panel-collapse collapse'>
+                      <div class='panel-body'>";
+                      $quer = "select * from personal where departamentopersonal = '".$rows['nombredepartamento']."' and estatus !=0 ";
+                      $cons = sqlsrv_query($conexion,$quer);
+                      echo"
+                      <table width=100%>
+                       <ul>";
+                      while ($row = sqlsrv_fetch_array($cons,SQLSRV_FETCH_ASSOC)) {
+                        echo"
+                        <tr>
+                         <td>
+                         <li align='left' align='left' style='list-style:none;'>".$row['Nombres']." ".$row['apellidos']."</li>
+                         </td>
+                         <td align='right'>
+                         <a href='#form' id = 'botonpersonal' class='btn btn-xs' role='button' name='button'
+                         data-id='".$row['idpersonal']."',
+                         data-nombre='".$row['Nombres']."',
+                         data-apellidos='".$row['apellidos']."',
+                         data-usuario='".desencriptar($row['usuario'])."',
+                         data-contraseña='".desencriptar($row['contrasena'])."',
+                         data-departamento='".$row['departamentopersonal']."',
+                         data-puesto='".$row['puesto']."',
+                         data-localidad='".$row['localidad']."',
+                         data-coordinador='".$row['coordinador']."',
+                         data-perfil='".$row['perfil']."',
+                         data-estatus='".$row['estatus']."''
+                         >Editar</a>
+                         <button id='borrar' data-id ='".$row['idpersonal']."' data-usuario = 'personal' class='btn btn-xs' type='button' name='button'>Borrar</button>
+                         </td>
+                         </tr>";
+                        }
+                        echo "</ul></table>";
+                        echo "
+                        </div>
+                      </div>
+                    </div>";
+                    $contador ++;
+                  }
+                    ?>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+              <footer>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm- footer-copyright wow fadeIn">
+                      <p>&copy; <?php $año = date("Y"); echo $año; ?> Human Services 21</p>
+                    </div>
+                  </div>
+                </div>
+              </footer>
+            </div>
+          <!-- Javascript -->
+          <script src="assets/js/jquery-1.11.1.min.js"></script>
+          <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+          <script src="assets/js/bootstrap-hover-dropdown.min.js"></script>
+          <script src="assets/js/wow.min.js"></script>
+          <script src="assets/js/retina-1.1.0.min.js"></script>
+          <script src="assets/js/jquery.magnific-popup.min.js"></script>
+          <script src="assets/flexslider/jquery.flexslider-min.js"></script>
+          <script src="assets/js/jflickrfeed.min.js"></script>
+          <script src="assets/js/masonry.pkgd.min.js"></script>
+          <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+          <script src="assets/js/jquery.ui.map.min.js"></script>
+          <script src="assets/js/scripts.js"></script>
       <?php } ?>
     </body>
 </html>

@@ -25,14 +25,16 @@ function desencriptar($cadena){
     <table width="100%">
     <ul>
     <?php
-    $query = "SELECT * FROM personal
-    WHERE Nombres LIKE '%$buscar%'
-    OR apellidos LIKE '%$buscar%';";
+
+    $query = "SELECT *
+              FROM personal
+              WHERE Nombres LIKE '%$buscar%'
+              OR apellidos LIKE '%$buscar%';";
 
     $count_query = sqlsrv_query($conexion,"SELECT count(*) AS numrows
     FROM personal
-    WHERE Nombres LIKE '%$buscar%'
-    OR apellidos LIKE '%$buscar%';");
+    WHERE Nombres LIKE '%$buscar%' OR apellidos LIKE '%$buscar%';");
+    
     if ($row= sqlsrv_fetch_array($count_query)){$numrows = $row['numrows'];}
     //echo "Coincidencia(s): ".$numrows."<br>";
     if($numrows != 0){

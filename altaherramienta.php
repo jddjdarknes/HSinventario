@@ -75,7 +75,7 @@
           <script type="text/javascript">
           $buscando="";
           function load(page,herramienta,buscando){
-            alert("Page: "+page+" Herramienta: "+herramienta+" Buscando: "+buscando);
+            //alert("Page: "+page+" Herramienta: "+herramienta+" Buscando: "+buscando);
             //alert("Aqui esta");
             $.post( "HerramientaH_ajax.php",
             {page:page,herramienta:herramienta,action:"ajax",buscando:$buscando}
@@ -86,7 +86,7 @@
           }
 
           function load(page,herramienta){
-            alert("Page: "+page+" Herramienta: "+herramienta);
+            //alert("Page: "+page+" Herramienta: "+herramienta);
             //alert("Aqui esta");
             $.post( "HerramientaH_ajax.php",
             {

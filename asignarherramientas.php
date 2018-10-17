@@ -3,6 +3,9 @@ session_start();
 include ('conexion.php');
 $cadena1 = $_SESSION['puesto'];
 $rh = strpos($cadena1,"RECURSOS HUMANOS");
+/*echo "SESSION: ".$_SESSION['departamento']."<br>";
+echo "Cadena: ".$cadena1."<br>";
+echo "RH: ".$rh."<br>";*/
 $sistemas = strpos($cadena1,"SISTEMAS");
 if(!isset($_SESSION['personal'])){header("Location: logout.php");}
 else{
@@ -47,6 +50,7 @@ else{
         #btnguardar{margin: 0 10px 0 10px;}
         </style>
         <script >
+        var pbus="";
         function load(page,herramienta){
          //alert("page: "+page+" herramienta: "+herramienta);
          $div="";
@@ -80,9 +84,16 @@ else{
            });
           }
           function redireccionar(datos){
-            //alert("Datos: "+datos);
-            /*var url = "http://189.208.169.88:8080/HSInventario/exportar_pdf.php?idper="+datos;
-            window.open(url);*/
+
+          }
+
+          function load(page){
+            $.post( "searchpersona.php",
+            {page:page,action:"ajax",personal : pbus}
+            ,function( data ) {
+              $("#presultado").empty();
+              $("#presultado").html(data);
+             });
           }
 
         $(document).ready(function(){
@@ -104,6 +115,112 @@ else{
           $URcontador=0;
           $borrartodounidadred=0;
           $ban=0;
+          var nuevosdatos = Array();
+          var asignarharware = Array();
+          var asignarsofware = Array();
+          $conta=0;
+
+          $( "#btnenviar" ).click(function(){
+            //enviar nuevosdatos
+            $si = "false";
+            $( "input:checked" ).each(function(){
+              $si = "true";
+            });
+
+            if($si == "false"){
+              alert("No a seleccionado ninguna herramienta");
+            }else{
+              $( ".hardware:checked" ).each(function(){
+                asignarharware.push($(this).val());
+              });
+
+              $( ".software:checked" ).each(function(){
+                asignarsofware.push($(this).val());
+              });
+
+              $id_pl = $( "#idper" ).val();
+              //nuevosdatos.push($id_pl);
+              $nombre = "Nombre(s): "+$( ".personalDa" ).data("nombre");
+              $apellidos = "Apellidos: "+$(".personalDa").data("apellido");
+              $departamento = "Departamento: "+$( ".personalDa" ).data("departamento");
+              $puesto = "Puesto: "+$( ".personalDa" ).data("puesto");
+              $localidad = "Localidad: "+$( ".personalDa" ).data("localidad");
+              $coordinador = "Coordinador: "+$( ".personalDa" ).data("coordinador");
+              $perfil = "Perfil: "+$( ".personalDa" ).data("perfil");
+
+              nuevosdatos.push($nombre);
+              nuevosdatos.push($apellidos);
+              nuevosdatos.push($departamento);
+              nuevosdatos.push($puesto);
+              nuevosdatos.push($localidad);
+              nuevosdatos.push($coordinador);
+              nuevosdatos.push($perfil);
+
+              for (var i = 0; i < asignarharware.length; i++) {
+                alert("Hardware: "+asignarharware[i]);
+              }
+
+              for (var i = 0; i < asignarsofware.length; i++) {
+                alert("Software: "+asignarsofware[i]);
+              }
+
+              for (var i = 0; i < nuevosdatos.length; i++) {
+                alert("Datos persona: "+nuevosdatos[i]);
+              }
+
+              $.post( "peticion.php",{
+                "hardware":JSON.stringify(asignarharware),
+                "software":JSON.stringify(asignarsofware),
+                "persona":JSON.stringify(nuevosdatos)
+              }
+                , function( data ) {
+                //$( "#mostrarherramientas" ).hide();
+                $( "#mostrarherramientas" ).html( data );
+              });
+            }
+              //setTimeout("location.href='http://38.101.223.14/HSInventario/altausuario.php'", 5000);
+          });
+
+          $("#Pbuscar").keyup(function(e){
+              //obtenemos el texto introducido en el campo de búsqueda
+              var consulta = $("#Pbuscar").val();
+              pbus = consulta;
+              //alert("Buscar esto: "+consulta);
+              //hace la búsqueda
+              if(consulta == ""){
+                 //$("#personal").load("#personal"); alert("< Empty >");
+                 $( "#presultado" ).empty();
+              }else{
+                $.post( "searchpersona.php", { personal: consulta, action : "ajax"},function( data ) {
+                  $( "#presultado" ).html( data );
+                });
+              }
+          });
+
+          $( "#presultado" ).on( "click", "a#pdatos", function(){
+            $idpersonal = $( this ).data( "id" );
+            $Nombres = $( this ).data( "nombre" );
+            $apellidos = $( this ).data( "apellidos" );
+            $departamentopersonal = $( this ).data( "departamento" );
+            $puesto = $( this ).data( "puesto" );
+            $localidad = $( this ).data( "localidad" );
+            $coordinador = $( this ).data( "coordinador" );
+            $perfil = $( this ).data( "perfil" );
+            //alert("ID: "+$idpersonal+" Nombre(s): "+$Nombres+" Apellido(s): "+$apellidos+" Departa: "+$departamentopersonal+" Puesto: "+$puesto+" Localidad: "+$localidad+" Coordinador: "+$coordinador+" Perfil: "+$perfil);
+            $( "#personaldatos" ).html("<input id='idper' type='text' name='idper' value='"+$idpersonal+"' hidden>"+
+                                       "<div class='panel panel-success'>"+
+                                       "<div class='panel-heading'>Datos del personal</div>"+
+                                       "<div class='panel-body'>"+
+                                       "<table width='100%'>"+
+                                       "<tr><td>Nombre:</td><td><label class='personalDa' data-nombre='"+$Nombres+"' data-apellido='"+$apellidos+"' data-departamento='"+$departamentopersonal+"' data-puesto='"+$puesto+"' data-localidad='"+$localidad+"' data-coordinador='"+$coordinador+"' data-perfil='"+$perfil+"'>"+$Nombres+" "+$apellidos+"</label></td></tr>"+
+                                       "<tr><td>Departamento:</td><td><label>"+$departamentopersonal+"</label></td></tr>"+
+                                       "<tr><td>Puesto:</td><td><label>"+$puesto+"</label></td></tr>"+
+                                       "<tr><td>Localidad:</td><td><label>"+$localidad+"</label></td></tr>"+
+                                       "<tr><td>Coordinador:</td><td><label>"+$coordinador+"</label></td></tr>"+
+                                       "<tr><td>Perfil:</td><td><label>"+$perfil+"</label></td></tr>"+
+                                       "</table></div></div>");
+          $( "#linkherramienta" ).show();
+          });
 
           $( "#datosasignacion" ).on( "click", "input.unidades",function() {
             //alert("Valor: "+$(this).val());
@@ -201,6 +318,7 @@ else{
             //alert($nuevousuario);
             $.post( "consultaHerramientas.php" ,{
               idp:$id,
+              action:$action,
               nombrep:$nombre,
               apellidop:$apellido,
               departamentop:$departamento,
@@ -670,7 +788,7 @@ else{
               $nomusuario = $("#usuario").val();
               //alert("Nombre: "+$nomusuario);
               $.post( "buscarpersonal.php",
-                {personal:$nomusuario},
+                {personal:$nomusuario,opcion:'Asignar'},
                 function( data ) {
                 $( "#datosasignacion" ).html( data );
                 $( "#datosasignacion" ).removeClass( "panel panel-default" );
@@ -1076,27 +1194,84 @@ else{
         <script src="assets/js/jquery.ui.map.min.js"></script>
         <script src="assets/js/scripts.js"></script>
 
-      <?php }elseif($_SESSION['departamento'] == "161 [RECLUTADOR]" and $rh !== false){//echo "No es Sistemas.";?>
+      <?php }elseif($_SESSION['departamento'] == "161 [RECLUTAMIENTO]" and $rh !== false){//echo "No es Sistemas.";?>
       <body>
         <!-- Top menu -->
-       <div align="left">
-         <a href="index.php">
-           <img src="assets/img/logo-human.png" height="80px">
-         </a>
-       </div>
-
-        <div class="navbar">
-          <div class="col-sm-3"></div>
-           <div class="collapse navbar-collapse col-sm-4" align="center">
-            <ul class="nav navbar-nav">
-             <li><a href="altausuario.php">manejo de personal</a></li>
-             <li><a href="altaherramienta.php">solicitud de asignacion</a></li>
-             <li class="active"><a href="asignarherramientas.php">consulta de asignacion</a></li>
-             <li><a href="logout.php">Salir</a></li>
-            </ul>
-          </div>
+        <div align="left">
+          <a href="index.php">
+            <img src="assets/img/logo-human.png" height="80px">
+          </a>
         </div>
+
+         <div class="navbar">
+           <div class="col-sm-2"></div>
+            <div class="collapse navbar-collapse col-sm-4" align="center">
+             <ul class="nav navbar-nav">
+              <li><a href="altausuario.php"><i style="font-size:24px" class="fa fa-user-plus"></i><br>Alta usuario</a></li>
+              <li class="active"><a href="asignarherramientas.php"><i class="fa fa-edit" style="font-size:24px"></i><br>peticion herramientas</a></li>
+              <li><a href="consultarusuario.php"><i class="fa fa-address-book" style="font-size:24px"></i><br>Consultar usuario</a></li>
+              <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+               <i class="fa fa-user-circle-o" style="font-size:24px"></i><br><?php echo $_SESSION['personal']; ?></a>
+               <ul class="dropdown-menu two" role="menu">
+               <li><a href="logout.php">Salir</a></li>
+             </ul>
+            </li>
+           </ul>
+           </div>
+         </div>
         <!-- Slider -->
+
+        <div class="col-sm-3" align="left">
+         <h3 id="h2">Buscar personal: </h3>
+          <input class="col-sm-12" type="textarea"  id="Pbuscar">
+          <div id="presultado"></div>
+        </div>
+
+        <div class="fondo col-sm-6 panel panel-default">
+         <div id="personaldatos"></div>
+         <div id="linkherramienta"  hidden>
+         <strong><h4>Herramientas<label id="personal"></label></h4></strong>
+         <a data-toggle="collapse" data-target="#mostrarherramientas"><span class="glyphicon glyphicon-chevron-down"></span></a>
+          </div>
+         <div id="mostrarherramientas" class="collapse col-sm-12">
+              <div class="col-sm-12"></div>
+              <div class="col-sm-4" id="" align="left">
+                <h4>Hardware</h4>
+                <input type="checkbox" value="Computadora" class="hardware" name="check"/> Computadora<br/>
+                <input type="checkbox" value="Telefonia" class="hardware" name="check"/> Telefonia<br/>
+                <input type="checkbox" value="Impresora/Consumible" class="hardware" name="check"/> Impresora/Consumible<br/>
+                <input type="checkbox" value="Accesorio" class="hardware" name="check"/> Accesorio<br/>
+                <input type="checkbox" value="Almacenamiento" class="hardware" name="check"/> Almacenamiento<br/>
+                <input type="checkbox" value="Red" class="hardware" name="check"/> Red<br/>
+              </div>
+             <div class="col-sm-4" id="" align="left">
+               <h4>Software</h4>
+               <input type="checkbox" value="ServidorVirtual" class="software" name="check" /> Servidor Virtual<br/>
+               <!--<input type="checkbox" value="8" id="Software" name="check" /> Unidad de Red<br/> -->
+               <input type="checkbox" value="Contabilidad" class="software" name="check" /> Contabilidad<br/>
+               <input type="checkbox" value="Facturación" class="software" name="check" /> Facturación<br/>
+               <input type="checkbox" value="Giro" class="software" name="check" /> Giro<br/>
+               <input type="checkbox" value="SistemaTickets" class="software" name="check" /> Sistema de Tickets<br/>
+               <input type="checkbox" value="GiroWeb" class="software" name="check" /> Giro Web<br/>
+              </div>
+              <div class="col-sm-4" align="left">
+                 <br><br>
+                 <input type="checkbox" value="Correo" class="software" name="check" /> Correo<br/>
+               </div>
+               <div class="col-sm-12"><br>
+                 <div class="col-sm-6">
+                   <button onclick="acancelar()" class="btn btn-primary col-sm-12" type="button" name="button">Cancelar</button>
+                 </div>
+
+                 <div class="col-sm-6">
+                   <button id="btnenviar" class='btn btn-success col-sm-12' type="button" name="button">Enviar</button>
+                 </div>
+               </div>
+           </div>
+        </div>
+
+        <div class="col-sm-3"></div>
+
         <footer class="col-sm-12">
           <div class="container">
             <div class="row">

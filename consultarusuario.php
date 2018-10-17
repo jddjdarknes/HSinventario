@@ -165,11 +165,7 @@ else{
              $coordinador=$(this).data( "coordinador" );
              $perfil = $(this).data( "perfil" );
              $opcion = $(this).data( "opcion" );
-             //alert("ID: "+$id+$nombre+$apellido+$departamento+$coordinador);
-             /*$( "label#nombre" ).html( $nombre+" "+$apellido );
-             $( "label#departamento" ).html( $departamento );
-             $( "label#localidad" ).html( $localidad );
-             $( "label#coordinador" ).html( $coordinador );*/
+
              $.post( "consultarHerramienta.php" ,{
                idp:$id,
                nombrep:$nombre,
@@ -281,44 +277,66 @@ else{
          <script src="assets/js/jquery.ui.map.min.js"></script>
          <script src="assets/js/scripts.js"></script>
 
-       <?php }elseif($_SESSION['departamento'] == "161 [RECLUTAMIENTO]"){
-         echo "Id: ".$_SESSION['id']."<br>" ?>
+       <?php }elseif($_SESSION['departamento'] == "161 [RECLUTAMIENTO]" and $rh !== false ){
+         //echo "Id: ".$_SESSION['id']."<br>" ?>
          <div align="left">
            <a href="index.php">
              <img src="assets/img/logo-human.png" height="80px">
            </a>
-            <div class="navbar">
-              <div class="col-sm-3"></div>
-               <div class="collapse navbar-collapse col-sm-4" align="center">
-                <ul class="nav navbar-nav">
-                  <li><a href="altausuario.php">manejo de personal</a></li>
-                  <li class="active"><a href="consultarusuario.php">consulta de asignación</a></li>
-                  <li><a href="logout.php">Salir</a></li>
-                </ul>
-              </div>
-            </div>
+
+           <div class="navbar">
+             <div class="col-sm-2"></div>
+              <div class="collapse navbar-collapse col-sm-4" align="center">
+               <ul class="nav navbar-nav">
+                <li><a href="altausuario.php"><i style="font-size:24px" class="fa fa-user-plus"></i><br>Alta usuario</a></li>
+                <!--<li><a href="altaherramienta.php"><i style="font-size:24px" class="fa fa-desktop"></i><br>Alta equipo</a></li>-->
+                <li><a href="asignarherramientas.php"><i class="fa fa-edit" style="font-size:24px"></i><br>Peticion herramientas</a></li>
+                <!--<li><a href="prestarherramientas.php"><i class="fa fa-pencil-square" style="font-size:24px"></i><br>prestar herramientas</a></li>-->
+                <li class="active"><a href="consultarusuario.php"><i class="fa fa-address-book" style="font-size:24px"></i><br>Consultar usuario</a></li>
+                <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                 <i class="fa fa-user-circle-o" style="font-size:24px"></i><br><?php echo $_SESSION['personal']; ?></a>
+                 <ul class="dropdown-menu two" role="menu">
+                 <li><a href="logout.php">Salir</a></li>
+               </ul>
+              </li>
+             </ul>
+             </div>
+           </div>
+
               <!-- Slider -->
               <div class="slider-container">
-         <div class="col-sm-3">
-           <div class="form-group">
-             <label for="personal">Buscar personal:</label>
-             <input type="text" class="form-control" id="persona">
-           </div>
-           <div id="herramientaseleccionada" class="panel panel-default">
-             <h4>Herramientas Seleccionadas: </h4>
-             <div id="shardware" class="panel panel-default">< Empty ></div>
-             <div id="ssoftware" class="panel panel-default">< Empty ></div>
-             <button type='button' class='btn btn-default btn-block' id='bguardar' data-personal=''>Guardar</button>
-           </div>
-         </div>
+                <div class="col-sm-2 panel panel-default">
+                  <!-- <div class="form-group">
+                    <label for="personal">Buscar personal:</label>
+                    <input type="text" class="form-control" id="persona">
+                  </div> -->
+                  <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#busqueda"><strong>Buscar por: </strong></button><label id="opcion"></label>
+                  <div id="busqueda" class="collapse">
+                    <div class="radio">
+                      <label><input type="radio" name="opcion" data-opcion = "asignacion">Asignación.</label>
+                    </div>
+                    <div class="radio">
+                      <label><input type="radio" name="opcion" data-opcion = "prestamo">Préstamo.</label>
+                    </div>
+                  </div>
+                  <div id='asignacion' hidden>
+                   <input type="text" class="form-control" id="busqueda" data-op="Asignada"><br>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="limpiar()" >Limpiar</button>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="cancelar()" >Cancelar</button>
+                  </div>
+                  <div id='prestamo' hidden>
+                   <input type="text" class="form-control" id="busqueda" data-op="Prestada"><br>
+                     <button type="button" class="btn btn-primary btn-sm" onclick="limpiar()">Limpiar</button>
+                     <button type="button" class="btn btn-secondary btn-sm" onclick="cancelar()">Cancelar</button>
+                  </div>
+                </div>
+                <div class="col-sm-6" id="datospersona"></div>
 
+                <!--<div class="col-sm-3" id="datos"></div>
+                <div class="col-sm-3">
 
-         <div class="col-sm-6" id="datospersona"></div>
-         <!--<div class="col-sm-3" id="datos"></div>
-         <div class="col-sm-3">
-
-         </div>-->
-       </div>
+                </div>-->
+              </div>
               <!-- Footer -->
               <div class="col-sm-12">
                 <footer>

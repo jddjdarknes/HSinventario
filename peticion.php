@@ -31,10 +31,12 @@ foreach ($software as $soft) {
 /*echo "<br>Datos perosnal: ".$datospersona."<br>";
 echo "Datos Hardware: ".$datohardware."<br>";
 echo "Datos Software: ".$datosoftware."<br>";*/
-$fecha_ingreso = date_format(GETDATE(), 'Y-m-d');
+
+$fecha_ingreso = DATE('Y-m-d');
+//$fecha_ingreso = date('Y-m-d');
 
 $sql = "INSERT INTO peticion (datos, hardware, software, atendido, fecha_ingreso, idpersonalAlta)
-VALUES ('$datospersona','$datohardware', '$datosoftware', 1, '$fecha_ingreso', $idpersona)";
+VALUES ('$datospersona','$datohardware', '$datosoftware', 0, '$fecha_ingreso', $idpersona)";
 
 $resultado = sqlsrv_query($conexion,$sql);
 
@@ -42,6 +44,7 @@ if( $resultado === false ) {
      die( print_r( sqlsrv_errors(), true));
 }else{
   echo "<div class='alert alert-success'>
-            <strong>OK !!! </strong>Se creó correctamente la petición.
-            </div>";}
+        <strong>OK !!! </strong>Se creó correctamente la petición.
+        </div>";
+      }
  ?>
