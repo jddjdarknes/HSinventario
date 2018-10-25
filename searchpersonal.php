@@ -33,8 +33,9 @@ function desencriptar($cadena){
 
     $count_query = sqlsrv_query($conexion,"SELECT count(*) AS numrows
     FROM personal
-    WHERE Nombres LIKE '%$buscar%' OR apellidos LIKE '%$buscar%';");
-    
+    WHERE Nombres LIKE '%$buscar%'
+    OR apellidos LIKE '%$buscar%';");
+
     if ($row= sqlsrv_fetch_array($count_query)){$numrows = $row['numrows'];}
     //echo "Coincidencia(s): ".$numrows."<br>";
     if($numrows != 0){

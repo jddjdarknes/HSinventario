@@ -46,9 +46,11 @@ else{
          function redireccionar(id,accion){
            //alert("Datos: "+datos);
            /*alert("ID: "+id);
-           alert("Accion: "+accion);*/
-           if(accion == "Asignada"){alert(accion); var url = "http://38.101.223.14/HSInventario/exportar_pdf2.php?idper="+id+"&op='"+accion+"'";}
-           if(accion == "Prestada"){alert(accion); var url = "http://38.101.223.14/HSInventario/exportar_pdf3.php?idper="+id+"&op='"+accion+"'";}
+           alert("Accion: "+accion);
+           alert(accion);
+           alert(accion);*/
+           if(accion == "Asignada"){var url = "/HSInventario/exportar_pdf2.php?idper="+id+"&op='"+accion+"'";}
+           if(accion == "Prestada"){var url = "/HSInventario/exportar_pdf3.php?idper="+id+"&op='"+accion+"'";}
            //var url = "http://38.101.223.14/HSInventario/exportar_pdf2.php?idper="+id+"&op='"+accion+"'";
            window.open(url);
          }
@@ -288,7 +290,7 @@ else{
              <div class="col-sm-2"></div>
               <div class="collapse navbar-collapse col-sm-4" align="center">
                <ul class="nav navbar-nav">
-                <li><a href="altausuario.php"><i style="font-size:24px" class="fa fa-user-plus"></i><br>Alta usuario</a></li>
+                <!--<li><a href="altausuario.php"><i style="font-size:24px" class="fa fa-user-plus"></i><br>Alta usuario</a></li>->
                 <!--<li><a href="altaherramienta.php"><i style="font-size:24px" class="fa fa-desktop"></i><br>Alta equipo</a></li>-->
                 <li><a href="asignarherramientas.php"><i class="fa fa-edit" style="font-size:24px"></i><br>Peticion herramientas</a></li>
                 <!--<li><a href="prestarherramientas.php"><i class="fa fa-pencil-square" style="font-size:24px"></i><br>prestar herramientas</a></li>-->

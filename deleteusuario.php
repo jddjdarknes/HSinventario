@@ -2,15 +2,29 @@
 include ('conexion.php');
 $id = $_POST['id'];
 $usuario = $_POST['usuario'];
-if($usuario != 'personal'){
-  //$sql = "UPDATE perfil SET estatus = 0 where idperfil = $id";
-}else {
-  $sql = "UPDATE $usuario set estatus = 0 Where idpersonal = $id";
+
+$query = "Select * from herramientas_personal where idpersonal = '$id'";
+$consulta = sqlsrv_query($conexion,$query);
+while( $line = sqlsrv_fetch_array( $consulta, SQLSRV_FETCH_ASSOC)){
+    echo "idpersonal: ".$line['idpersonal']."<br>";
+    $clave = $line['Clave'];
+    $actualizarestado = sqlsrv_query($conexion,"Update herramienta set estadoherramienta = 'No Asignada' where Clave = '$clave'");
 }
-$query = sqlsrv_query($conexion,$sql);
-if($query){
-  echo "Datos Borrados";
+
+$borrarpersonal = sqlsrv_query($conexion,"Update personal set estatus = 0, estadoherramienta = '' where idpersonal = '$id'");
+$quitarherramientas = sqlsrv_query($conexion,"Delete from herramientas_personal where idpersonal = '$id' ");
+
+$stmt = sqlsrv_query($quitarherramientas);
+if( $stmt === false ) {
+     die( print_r( sqlsrv_errors(), true));
 }else{
-  echo "No se pudieron borrar los datos";
+  echo "Herrramientas Reacignadas.";
+}
+
+$stmt = sqlsrv_query($borrarpersonal);
+if( $stmt === false ) {
+     die( print_r( sqlsrv_errors(), true));
+}else{
+  echo "Datos Borrados";
 }
  ?>

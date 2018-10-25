@@ -1,4 +1,6 @@
-<?php include ("conexion.php");
+<?php
+include ("conexion.php");
+session_start();
 error_reporting(E_ALL);
 date_default_timezone_set('America/Mexico_City');
 
@@ -14,7 +16,7 @@ $opcionp = $_POST['opcionp'];
 $nuevousuario="";
 //echo "Opcion Resivida: ".$opcionp."<br>";
 //echo "Accion a Realizar: ".$action."<br>";
-echo "<input type='text' name='fname' id='nuevopersonal' value='$nuevousuario'>";
+echo "<input type='text' name='fname' id='nuevopersonal' value='$nuevousuario' hidden>";
 echo "<div class='panel panel-info'>
   <div class='panel-heading'>Datos del personal</div>
   <div align='left' class='panel-body'>

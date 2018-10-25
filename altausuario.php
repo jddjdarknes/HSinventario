@@ -245,12 +245,14 @@ else{
           });
 
         $("#personal").on("click",".btn#borrar",function(){
-            alert("Borrar Personal");
+            //alert("Borrar Personal");
             $id = $(this).data('id');
             $usuario = $(this).data('usuario');
+            alert("Usuario: "+$usuario);
             $.post( "deleteusuario.php", {id : $id, usuario : $usuario},function( data ) {
               $( '#boton' ).empty();
               $( '#actualizar' ).html(data);
+              alert("Esto Regresa: "+data);
             });
           });
 
@@ -769,7 +771,7 @@ else{
         <div class="col-sm-2"></div>
          <div class="collapse navbar-collapse col-sm-4" align="center">
           <ul class="nav navbar-nav">
-           <li class="active"><a href="altausuario.php"><i style="font-size:24px" class="fa fa-user-plus"></i><br>Alta usuario</a></li>
+           <!--<li class="active"><a href="altausuario.php"><i style="font-size:24px" class="fa fa-user-plus"></i><br>Alta usuario</a></li>-->
            <li><a href="asignarherramientas.php"><i class="fa fa-edit" style="font-size:24px"></i><br>peticion herramientas</a></li>
            <li><a href="consultarusuario.php"><i class="fa fa-address-book" style="font-size:24px"></i><br>Consultar usuario</a></li>
            <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">

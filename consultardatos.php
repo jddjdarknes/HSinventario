@@ -30,7 +30,7 @@
         }
 
         if(isset($_SESSION['personal'])){
-            header("Location: altausuario.php");
+            header("Location: consultarusuario.php");
         } else {
             header("Location: redireccionar.php?mensaje=1");
         }

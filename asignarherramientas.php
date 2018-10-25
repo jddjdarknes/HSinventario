@@ -83,6 +83,11 @@ else{
             $( "#datosasignacion" ).addClass( "panel panel-default" );
            });
           }
+
+          function acancelar(){
+            location.reload();
+          }
+
           function redireccionar(datos){
 
           }
@@ -119,6 +124,27 @@ else{
           var asignarharware = Array();
           var asignarsofware = Array();
           $conta=0;
+
+          $( "#mostrarherramientas" ).on( "click" , ".hardware" ,function(){
+            $tipoH = $(this).val();
+            if ($(this).is(':checked')) {
+              // checked
+              alert("Checked: "+$tipoH);
+              $("#subherramientas").append("<div class='panel panel-info'>"+
+              "<div class='panel-heading'>Panel with panel-info class</div>"+
+              "<div class='panel-body'>Panel Content</div>"+
+              "</div>");
+            } else {
+              // not checked
+              alert("Not Cheked: "+$tipoH);
+            }
+          });
+
+          $('.collapse').on('show.bs.collapse',function(){
+            $( "span" ).removeClass( "glyphicon-chevron-down" ).addClass( "glyphicon-chevron-up" );
+          }).on('hidden.bs.collapse',function(){
+            $( "span" ).removeClass( "glyphicon-chevron-up" ).addClass( "glyphicon-chevron-down" );
+          });
 
           $( "#btnenviar" ).click(function(){
             //enviar nuevosdatos
@@ -279,8 +305,20 @@ else{
          $("#datosasignacion").on( "change", "#unidadred", function(){
            $confirmar = $(this).val();
            //alert("Confirmar: "+$confirmar);
-           if($confirmar == 'si'){$( "#sociolaborales" ).show(); $( "#finanzas" ).show(); $borrartodounidadred=0; $estadoH='Asignar';}
-           if($confirmar == 'no'){$( "#sociolaborales" ).hide(); $( "#finanzas" ).hide(); $borrartodounidadred=1; $estadoH='Asignar';}
+           if($confirmar == 'si'){
+             $( "#sociolaborales" ).show();
+             $( "#finanzas" ).show();
+             $borrartodounidadred=0;
+             $estadoH='Asignar';
+           }
+
+           if($confirmar == 'no'){
+             $( "#sociolaborales" ).hide();
+             $( "#finanzas" ).hide();
+             $borrartodounidadred=1;
+             $estadoH='Asignar';
+           }
+
          });
 
           $( "#busquedapor" ).on( "click", "#blimpiar" ,function(){
@@ -895,36 +933,10 @@ else{
             });
 
             $( "#herramientaseleccionada" ).on("click","#bregresar",function(){
-               $( "#com" ).hide();
-               $( "#imp" ).hide();
-               $( "#tele" ).hide();
-               $( "#comp" ).hide();
-               $( "#alm" ).hide();
-               $( "#re" ).hide();
-
-               $( "#serv" ).hide();
-               $( "#cont" ).hide();
-               $( "#fac" ).hide();
-               $( "#gi" ).hide();
-               $( "#sist" ).hide();
-               $( "#gir" ).hide();
-               $( "#cor" ).hide();
+              $( "#Hard" ).empty();
+              $( "#Soft" ).empty();
               $( "#botones" ).hide();
               $( ".buscar" ).hide();
-
-              $( "#Computadora" ).empty();
-              $( "#Telefonia" ).empty();
-              $( "#Impresora" ).empty();
-              $( "#Accesorio" ).empty();
-              $( "#Almacenamiento" ).empty();
-              $( "#Red" ).empty();
-              $( "#ServidorVirtual" ).empty();
-              $( "#Contabilidad" ).empty();
-              $( "#Facturacion" ).empty();
-              $( "#Giro" ).empty();
-              $( "#SistemaTicket" ).empty();
-              $( "#GiroWeb" ).empty();
-              $( "#Correo" ).empty();
               //$( ".usuario" ).show();
               $( "#datosasignacion" ).show();
               $( "#panel" ).removeClass( "col-sm-4" );
@@ -1207,7 +1219,7 @@ else{
            <div class="col-sm-2"></div>
             <div class="collapse navbar-collapse col-sm-4" align="center">
              <ul class="nav navbar-nav">
-              <li><a href="altausuario.php"><i style="font-size:24px" class="fa fa-user-plus"></i><br>Alta usuario</a></li>
+              <!--<li><a href="altausuario.php"><i style="font-size:24px" class="fa fa-user-plus"></i><br>Alta usuario</a></li>-->
               <li class="active"><a href="asignarherramientas.php"><i class="fa fa-edit" style="font-size:24px"></i><br>peticion herramientas</a></li>
               <li><a href="consultarusuario.php"><i class="fa fa-address-book" style="font-size:24px"></i><br>Consultar usuario</a></li>
               <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">
@@ -1270,7 +1282,7 @@ else{
            </div>
         </div>
 
-        <div class="col-sm-3"></div>
+        <div id="subherramientas" class="col-sm-3"></div>
 
         <footer class="col-sm-12">
           <div class="container">

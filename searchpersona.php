@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'conexion.php';
+
 function encriptar($cadena){
 	$key='darks';  // Una clave de codificacion, debe usarse la misma para encriptar y desencriptar
 	$encrypted = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $cadena, MCRYPT_MODE_CBC, md5(md5($key))));
@@ -45,8 +46,11 @@ function desencriptar($cadena){
 					$consulta="SELECT *
 					 from
 						(Select *,
-						 ROW_NUMBER() OVER (ORDER BY idpersonal ASC)ROWNUMBER from personal where estatus != 0) AS TABLEWHITROWNUMBER
-						where ROWNUMBER BETWEEN $contador2 and $contador1;";
+						 ROW_NUMBER() OVER (ORDER BY idpersonal ASC)ROWNUMBER
+						 from personal
+						 where Nombres LIKE '%$usuario%'
+		         OR apellidos LIKE '%$usuario%' and estatus != 0) AS TABLEWHITROWNUMBER
+						 where ROWNUMBER BETWEEN $contador2 and $contador1;";
 					$query = sqlsrv_query($conexion,$consulta);
 				//WHERE  ROWNUM BETWEEN (@NUMero_PAGINA*@TAMaño_PAGINA)-@TAM_PAGINA+1 AND (@NUM_PAGINA*@TAM_PAGINA)
 				if ($numrows>0)
