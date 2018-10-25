@@ -14,7 +14,7 @@ while( $line = sqlsrv_fetch_array( $consulta, SQLSRV_FETCH_ASSOC)){
 $borrarpersonal = sqlsrv_query($conexion,"Update personal set estatus = 0, estadoherramienta = '' where idpersonal = '$id'");
 $quitarherramientas = sqlsrv_query($conexion,"Delete from herramientas_personal where idpersonal = '$id' ");
 
-$stmt = sqlsrv_query($quitarherramientas);
+/*$stmt = sqlsrv_query($quitarherramientas);
 if( $stmt === false ) {
      die( print_r( sqlsrv_errors(), true));
 }else{
@@ -26,5 +26,5 @@ if( $stmt === false ) {
      die( print_r( sqlsrv_errors(), true));
 }else{
   echo "Datos Borrados";
-}
+}*/
  ?>

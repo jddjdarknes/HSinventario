@@ -248,11 +248,10 @@ else{
             //alert("Borrar Personal");
             $id = $(this).data('id');
             $usuario = $(this).data('usuario');
-            alert("Usuario: "+$usuario);
+            //alert("Usuario: "+$usuario);
             $.post( "deleteusuario.php", {id : $id, usuario : $usuario},function( data ) {
               $( '#boton' ).empty();
-              $( '#actualizar' ).html(data);
-              alert("Esto Regresa: "+data);
+              location.reload();
             });
           });
 
